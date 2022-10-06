@@ -10,18 +10,34 @@ export function useDatePicker() {
   const [prevMonthDays, setPrevMonthDays] = useState(5);
   const [days, setDays] = useState(31);
   const [date, setDate] = useState(currentDate);
+  const [afterMonthDays, setAfterMonthDays] = useState(1);
+  const [preMonthDays, setPreMonthDays] = useState(1);
 
   useEffect(() => {
-    const prevMonthDays = new Date(`${currentMonth + 1}-01-${currentYear}`).getDay();
+    const dt = new Date(`${currentMonth + 1}-01-${currentYear}`);
+    // Spots at start
+    const prevMonthDays = dt.getDay();
     setPrevMonthDays(prevMonthDays);
+    // Days in last month
+    const priorDays = new Date(dt);
+    priorDays.setMonth(priorDays.getMonth() - 1);
+    const preDays = getDaysInMonth(priorDays.getFullYear(), priorDays.getMonth() + 1);
+    setPreMonthDays(preDays);
+    // Days in current month
     const numberOfDays = getDaysInMonth(currentYear, currentMonth + 1);
     setDays(numberOfDays);
-  }, [currentMonth, currentYear]);
+    // Positions need for next month
+    const afterMonthDays = Math.ceil((numberOfDays + prevMonthDays) / 7) * 7;
+    setAfterMonthDays(afterMonthDays - (numberOfDays + prevMonthDays));
 
-  useEffect(() => {
     const newDate = new Date(`${currentMonth + 1}-${currentDay}-${currentYear}`);
-    if (newDate != date) setDate(newDate);
-  }, [currentDay]);
+    setDate(newDate);
+
+    // So we don't go from  31.may to 31.jun, which doesn't exist
+    if (currentDay > numberOfDays) setCurrentDay(numberOfDays);
+  }, [currentDay, currentMonth, currentYear]);
+
+  //   useEffect(() => {}, [currentDay]);
 
   const selectDay = (day) => {
     setCurrentDay(day);
@@ -55,5 +71,7 @@ export function useDatePicker() {
     decMonth,
     days,
     prevMonthDays,
+    afterMonthDays,
+    preMonthDays,
   };
 }

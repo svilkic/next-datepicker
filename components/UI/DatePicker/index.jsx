@@ -5,11 +5,24 @@ import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { getDays, genDaysFrom } from '/helpers/date';
 import { week, months } from '/constants/dates';
 import { useDatePicker } from '/hooks/useDatePicker';
+import { getDaysInMonth } from '../../../helpers/date';
 
 function DatePicker() {
-  const { currentDay, currentMonth, currentYear, selectDay, date, incMonth, decMonth, days, prevMonthDays } =
-    useDatePicker();
+  const {
+    currentDay,
+    currentMonth,
+    currentYear,
+    selectDay,
+    date,
+    incMonth,
+    decMonth,
+    days,
+    prevMonthDays,
+    afterMonthDays,
+    preMonthDays,
+  } = useDatePicker();
   const dateFormat = `${week[date.getDay()]}, ${months[currentMonth].substring(0, 3)} ${currentDay}, ${currentYear}`;
+  //   TODO
 
   useEffect(() => {
     console.log(date);
@@ -31,13 +44,19 @@ function DatePicker() {
         ))}
       </div>
       <div className={styles.days}>
-        {genDaysFrom(prevMonthDays).map((prev) => (
-          <div key={prev} className={styles.prevDate}></div>
-        ))}
+        {prevMonthDays > 0 &&
+          genDaysFrom(preMonthDays)
+            .splice(prevMonthDays * -1)
+            .map((prev) => (
+              <div key={prev} className={styles.prevDate}>
+                {prev}
+              </div>
+            ))}
+
         {genDaysFrom(days).map((day) => (
           <div
             key={day}
-            className={`${currentDay == day ? styles.selected : ''}`}
+            className={`${currentDay == day ? styles.selected : styles.day}`}
             onClick={() => {
               selectDay(day);
             }}
@@ -45,7 +64,11 @@ function DatePicker() {
             {day}
           </div>
         ))}
-
+        {genDaysFrom(afterMonthDays).map((next) => (
+          <div key={next} className={styles.nextDate}>
+            {next}
+          </div>
+        ))}
         {/* <div className={styles.nextDate}>1</div>
         <div className={styles.nextDate}>2</div>
         <div className={styles.nextDate}>3</div>
