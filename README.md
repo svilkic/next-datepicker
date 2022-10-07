@@ -6,6 +6,7 @@ Still needs to be tested.
 [DEMO](https://next-datepicker.netlify.app/)
 
 ## Video Example
+
 <div align="center">
     <img src="./datepicker-video.gif" alt="Datepicker Example Video" width="90%" align="center" />
 </div>
@@ -23,6 +24,8 @@ Still needs to be tested.
 ### 5. (optional) Change primary color in `styles/globals.css`,
 
 ## TODO:
-* Add functionality when clcik on day of previous/next date to automaticaly switch to that month (instead of switching to next month and then chosing day)
-* Make it more responsive.
-* Test component fully
+
+- <del>Add functionality when clcik on day of previous/next date to automaticaly switch to that month (instead of switching to next month and then chosing day)</del>
+- <del>Make current date border</del>
+- Make it more responsive.
+- Test component fully
