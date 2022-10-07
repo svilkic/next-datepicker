@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { genDaysFrom } from '/helpers/date';
-import { weekEN, monthsEN } from '/constants/dates';
+import { weekEN as weeks, monthsEN as months } from '/constants/dates';
 import { useDatePicker } from '/hooks/useDatePicker';
 import { ArrowLeft, ArrowRight } from '../arrows';
 // Styles
@@ -26,7 +26,7 @@ export default function DatePicker({ type, onChange }) {
   } = useDatePicker();
   const today = (day) => (cDay === day && cMonth === currentMonth && cYear === currentYear ? styles.today : '');
   const selected = (day) => (currentDay === day ? styles.selected : styles.day);
-  const dateFormat = `${weekEN[date.getDay()]}, ${monthsEN[currentMonth].substring(
+  const dateFormat = `${weeks[date.getDay()]}, ${months[currentMonth].substring(
     0,
     3
   )} ${currentDay}, ${currentYear}`;
@@ -41,13 +41,13 @@ export default function DatePicker({ type, onChange }) {
       <div className={styles.bar}>
         <ArrowLeft className={styles.button} onClick={decMonth} />
         <div className={styles.currentDate}>
-          <p className={styles.currentMonth}>{monthsEN[currentMonth]}</p>
+          <p className={styles.currentMonth}>{months[currentMonth]}</p>
           <p className={styles.date}>{dateFormat}</p>
         </div>
         <ArrowRight className={styles.button} onClick={incMonth} />
       </div>
       <div className={styles.weekdays}>
-        {weekEN.map((week) => (
+        {weeks.map((week) => (
           <div key={week}>{week.substring(0, 3)}</div>
         ))}
       </div>
