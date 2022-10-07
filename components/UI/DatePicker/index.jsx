@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { genDaysFrom } from '/helpers/date';
+import { weekEN, monthsEN } from '/constants/dates';
+import { useDatePicker } from '/hooks/useDatePicker';
+import { ArrowLeft, ArrowRight } from '../arrows';
 // Styles
 import styles from './datepicker.module.css';
-import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
-import { getDays, genDaysFrom } from '/helpers/date';
-import { week, months } from '/constants/dates';
-import { useDatePicker } from '/hooks/useDatePicker';
-import { getDaysInMonth } from '../../../helpers/date';
 
-function DatePicker() {
+export default function DatePicker({ type }) {
   const {
     currentDay,
     currentMonth,
@@ -21,9 +20,12 @@ function DatePicker() {
     afterMonthDays,
     preMonthDays,
   } = useDatePicker();
-  const dateFormat = `${week[date.getDay()]}, ${months[currentMonth].substring(0, 3)} ${currentDay}, ${currentYear}`;
-  //   TODO
+  const dateFormat = `${weekEN[date.getDay()]}, ${monthsEN[currentMonth].substring(
+    0,
+    3
+  )} ${currentDay}, ${currentYear}`;
 
+  //When date is selected
   useEffect(() => {
     console.log(date);
   }, [date]);
@@ -31,15 +33,15 @@ function DatePicker() {
   return (
     <div className={styles.datepicker}>
       <div className={styles.bar}>
-        <BiChevronLeft className={styles.button} size='3rem' color='white' onClick={decMonth} />
+        <ArrowLeft className={styles.button} onClick={decMonth} />
         <div className={styles.currentDate}>
-          <p className={styles.currentMonth}>{months[currentMonth]}</p>
+          <p className={styles.currentMonth}>{monthsEN[currentMonth]}</p>
           <p className={styles.date}>{dateFormat}</p>
         </div>
-        <BiChevronRight className={styles.button} size='3rem' color='white' onClick={incMonth} />
+        <ArrowRight className={styles.button} onClick={incMonth} />
       </div>
       <div className={styles.weekdays}>
-        {week.map((week) => (
+        {weekEN.map((week) => (
           <div key={week}>{week.substring(0, 3)}</div>
         ))}
       </div>
@@ -49,10 +51,9 @@ function DatePicker() {
             .splice(prevMonthDays * -1)
             .map((prev) => (
               <div key={prev} className={styles.prevDate}>
-                {prev}
+                {type == 2 && prev}
               </div>
             ))}
-
         {genDaysFrom(days).map((day) => (
           <div
             key={day}
@@ -66,18 +67,14 @@ function DatePicker() {
         ))}
         {genDaysFrom(afterMonthDays).map((next) => (
           <div key={next} className={styles.nextDate}>
-            {next}
+            {type === 2 && next}
           </div>
         ))}
-        {/* <div className={styles.nextDate}>1</div>
-        <div className={styles.nextDate}>2</div>
-        <div className={styles.nextDate}>3</div>
-        <div className={styles.nextDate}>4</div>
-        <div className={styles.nextDate}>5</div>
-        <div className={styles.nextDate}>6</div> */}
       </div>
     </div>
   );
 }
 
-export default DatePicker;
+DatePicker.defaultProps = {
+  type: 1,
+};
