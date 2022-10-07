@@ -2,7 +2,7 @@ import Head from 'next/head';
 import DatePicker from '/components/UI/DatePicker';
 
 export default function Home() {
-  const onDateChage = (date) => {
+  const onDateChange = (date) => {
     console.log(date)
   }
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <Head>
         <title>Datepicker Calendar </title>
       </Head>
-      <DatePicker type={2} onChange={onDateChage} />
+      <DatePicker type={2} onChange={onDateChange} />
     </div>
   );
 }

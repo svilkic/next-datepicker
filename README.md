@@ -7,15 +7,22 @@ Still needs to be tested.
 
 ## Video Example
 <div align="center">
-    <img src="./datepicker-video.gif" alt="Datepicker Example Video" width="59%" align="center" />
+    <img src="./datepicker-video.gif" alt="Datepicker Example Video" width="90%" align="center" />
 </div>
 
 ## Instructions:
 
-### 1. git clone git@github.com:svilkic/next-datepicker.git
+### 1. `git clone https://github.com/svilkic/next-datepicker.git`
 
 ### 2. `npm install`
 
 ### 3. `npm run dev`
 
-### 4. Change '/constants/dates.js' to other language if needed.
+### 4. (otpional) Change `/constants/dates.js` to other language if needed.
+
+### 5. (optional) Change primary color in `styles/globals.css`,
+
+## TODO:
+* Add functionality when clcik on day of previous/next date to automaticaly switch to that month (instead of switching to next month and then chosing day)
+* Make it more responsive.
+* Test component fully
