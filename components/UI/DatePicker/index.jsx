@@ -6,6 +6,10 @@ import { ArrowLeft, ArrowRight } from '../arrows';
 // Styles
 import styles from './datepicker.module.css';
 
+const currentDate = new Date();
+const cDay = currentDate.getDate();
+const cMonth = currentDate.getMonth();
+const cYear = currentDate.getFullYear();
 export default function DatePicker({ type, onChange }) {
   const {
     currentDay,
@@ -20,6 +24,8 @@ export default function DatePicker({ type, onChange }) {
     afterMonthDays,
     preMonthDays,
   } = useDatePicker();
+  const today = (day) => (cDay === day && cMonth === currentMonth && cYear === currentYear ? styles.today : '');
+  const selected = (day) => (currentDay === day ? styles.selected : styles.day);
   const dateFormat = `${weekEN[date.getDay()]}, ${monthsEN[currentMonth].substring(
     0,
     3
@@ -27,7 +33,7 @@ export default function DatePicker({ type, onChange }) {
 
   //When date is selected
   useEffect(() => {
-    onChange(date)
+    onChange(date);
   }, [date]);
 
   return (
@@ -50,14 +56,20 @@ export default function DatePicker({ type, onChange }) {
           genDaysFrom(preMonthDays)
             .splice(prevMonthDays * -1)
             .map((prev) => (
-              <div key={prev} className={styles.prevDate}>
+              <div
+                key={prev}
+                className={styles.prevDate}
+                onClick={(e) => {
+                  selectDay(prev, -1);
+                }}
+              >
                 {type == 2 && prev}
               </div>
             ))}
         {genDaysFrom(days).map((day) => (
           <div
             key={day}
-            className={`${currentDay == day ? styles.selected : styles.day}`}
+            className={`${selected(day)} ${today(day)} `}
             onClick={() => {
               selectDay(day);
             }}
@@ -66,7 +78,13 @@ export default function DatePicker({ type, onChange }) {
           </div>
         ))}
         {genDaysFrom(afterMonthDays).map((next) => (
-          <div key={next} className={styles.nextDate}>
+          <div
+            key={next}
+            className={styles.nextDate}
+            onClick={(e) => {
+              selectDay(next, 1);
+            }}
+          >
             {type === 2 && next}
           </div>
         ))}
@@ -77,5 +95,5 @@ export default function DatePicker({ type, onChange }) {
 
 DatePicker.defaultProps = {
   type: 1,
-  onChange: ()=>{}
+  onChange: () => {},
 };

@@ -37,8 +37,10 @@ export function useDatePicker() {
     if (currentDay > numberOfDays) setCurrentDay(numberOfDays);
   }, [currentDay, currentMonth, currentYear]);
 
-  const selectDay = (day) => {
+  const selectDay = (day, changeMonth = 0) => {
     setCurrentDay(day);
+    if (changeMonth === 1) incMonth();
+    else if (changeMonth === -1) decMonth();
   };
 
   const incMonth = () => {
