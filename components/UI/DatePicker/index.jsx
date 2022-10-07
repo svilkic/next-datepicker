@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight } from '../arrows';
 // Styles
 import styles from './datepicker.module.css';
 
-export default function DatePicker({ type }) {
+export default function DatePicker({ type, onChange }) {
   const {
     currentDay,
     currentMonth,
@@ -27,7 +27,7 @@ export default function DatePicker({ type }) {
 
   //When date is selected
   useEffect(() => {
-    console.log(date);
+    onChange(date)
   }, [date]);
 
   return (
@@ -77,4 +77,5 @@ export default function DatePicker({ type }) {
 
 DatePicker.defaultProps = {
   type: 1,
+  onChange: ()=>{}
 };

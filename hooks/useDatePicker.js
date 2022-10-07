@@ -37,8 +37,6 @@ export function useDatePicker() {
     if (currentDay > numberOfDays) setCurrentDay(numberOfDays);
   }, [currentDay, currentMonth, currentYear]);
 
-  //   useEffect(() => {}, [currentDay]);
-
   const selectDay = (day) => {
     setCurrentDay(day);
   };

@@ -1,4 +1,4 @@
-export const months = [
+export const monthsSR = [
   'Januar',
   'Februar',
   'Mart',
@@ -12,7 +12,7 @@ export const months = [
   'Novembar',
   'Decembar',
 ];
-export const week = ['Nedelja', 'Ponedeljak', 'Utorak', 'Sreda', 'Četvrtak', 'Petak', 'Subota'];
+export const weekSR = ['Nedelja', 'Ponedeljak', 'Utorak', 'Sreda', 'Četvrtak', 'Petak', 'Subota'];
 
 export const monthsEN = [
   'January',
