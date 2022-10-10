@@ -10,7 +10,7 @@ const currentDate = new Date();
 const cDay = currentDate.getDate();
 const cMonth = currentDate.getMonth();
 const cYear = currentDate.getFullYear();
-export default function DatePicker({ type, onChange }) {
+export default function DatePicker({ onChange, previousSelectable }) {
   const {
     currentDay,
     currentMonth,
@@ -25,11 +25,9 @@ export default function DatePicker({ type, onChange }) {
     preMonthDays,
   } = useDatePicker();
   const today = (day) => (cDay === day && cMonth === currentMonth && cYear === currentYear ? styles.today : '');
+  const isPrevious = (day) => (day < cDay && cMonth <= currentMonth && cYear <= currentYear ? true : false);
   const selected = (day) => (currentDay === day ? styles.selected : styles.day);
-  const dateFormat = `${weeks[date.getDay()]}, ${months[currentMonth].substring(
-    0,
-    3
-  )} ${currentDay}, ${currentYear}`;
+  const dateFormat = `${weeks[date.getDay()]}, ${months[currentMonth].substring(0, 3)} ${currentDay}, ${currentYear}`;
 
   //When date is selected
   useEffect(() => {
@@ -60,10 +58,12 @@ export default function DatePicker({ type, onChange }) {
                 key={prev}
                 className={styles.prevDate}
                 onClick={(e) => {
+                  console.log(cMonth, currentMonth);
+                  if (!previousSelectable && cMonth >= currentMonth) return;
                   selectDay(prev, -1);
                 }}
               >
-                {type == 2 && prev}
+                {prev}
               </div>
             ))}
         {genDaysFrom(days).map((day) => (
@@ -71,6 +71,7 @@ export default function DatePicker({ type, onChange }) {
             key={day}
             className={`${selected(day)} ${today(day)} `}
             onClick={() => {
+              if (!previousSelectable && isPrevious(day)) return;
               selectDay(day);
             }}
           >
@@ -85,7 +86,7 @@ export default function DatePicker({ type, onChange }) {
               selectDay(next, 1);
             }}
           >
-            {type === 2 && next}
+            {next}
           </div>
         ))}
       </div>
@@ -94,6 +95,6 @@ export default function DatePicker({ type, onChange }) {
 }
 
 DatePicker.defaultProps = {
-  type: 1,
+  previousSelectable: true,
   onChange: () => {},
 };
