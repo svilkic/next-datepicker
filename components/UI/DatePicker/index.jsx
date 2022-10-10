@@ -26,6 +26,7 @@ export default function DatePicker({ onChange, previousSelectable }) {
   } = useDatePicker();
   const today = (day) => (cDay === day && cMonth === currentMonth && cYear === currentYear ? styles.today : '');
   const isPrevious = (day) => (day < cDay && cMonth <= currentMonth && cYear <= currentYear ? true : false);
+  const previousClass = (day) => (!previousSelectable && isPrevious(day) ? styles.unavailable : '');
   const selected = (day) => (currentDay === day ? styles.selected : styles.day);
   const dateFormat = `${weeks[date.getDay()]}, ${months[currentMonth].substring(0, 3)} ${currentDay}, ${currentYear}`;
 
@@ -69,7 +70,7 @@ export default function DatePicker({ onChange, previousSelectable }) {
         {genDaysFrom(days).map((day) => (
           <div
             key={day}
-            className={`${selected(day)} ${today(day)} `}
+            className={`${selected(day)} ${today(day)} ${previousClass(day)}`}
             onClick={() => {
               if (!previousSelectable && isPrevious(day)) return;
               selectDay(day);
